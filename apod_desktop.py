@@ -17,6 +17,7 @@ History:
   2022-03-11  J.Dalby   Initial creation
   2022-04-27  J.Daler   Adding my personal API key and fininshing the todos' at the beginning.
   2022-04-28  J.Daler   Worked on def download_apod_image.
+  2022-04-28  J.Daler   Joining the pieces of the code together by completing the rest of the To-dos.
 
 """
 from sys import argv, exit
@@ -25,9 +26,11 @@ from hashlib import sha256
 from os import path
 from os.path import exists
 import os.path
-import requests
+from pip._vendor import requests
 import hashlib
 import shutil
+from pprint import pprint
+import sqlite3
 
 def main():
 
@@ -118,9 +121,9 @@ def get_image_path(image_url, dir_path):
     url =image_url #image url
     filename= url.split("/")[-1] #get the picture's name
     
-    resides =  dir_path # where the photo are saved
+    resides =  dir_path 
     
-    full_path= os.path.join(resides,filename)# full path of photo
+    full_path= os.path.join(resides,filename)
     print(full_path)
     return resides
 
@@ -148,8 +151,7 @@ def get_apod_info(date):
         print('Response:',response.status_code, '🎉🎉🎉', '\n')
         print("Success Date obtained")
         info =response.json()
-        info_dict= dict(info)#transform it to a dictionary
-        
+        info_dict= dict(info)
         return info_dict
         
     else:
@@ -180,8 +182,8 @@ def download_apod_image(image_url):
     :returns: Response message that contains image data
     """
     #return "TODO"
-    image =(image_url['url']) #the image data info saved here
-    image_data = requests.get(image) #connection to url
+    image =(image_url['url'])
+    image_data = requests.get(image) 
     
     if image_data.status_code == 200:
         print('Response:',image_data.status_code, '🎉🎉🎉', '\n')
@@ -202,7 +204,25 @@ def save_image_file(image_msg, image_path):
     :param image_path: Path to save image file
     :returns: None
     """
-    return #TODO
+    url =image_msg #url of the photo that is going to be saved
+    req=requests.get(url,stream = True) 
+    if req.status_code == 200:
+        print('Response:',req.status_code, '🎉🎉🎉', '\n')
+        print("Successfully saved")
+
+    else:
+        print('failed to download photo',req.status_code)
+
+    filename = url.split("/")[-1] 
+    req.raw.decode_content = True 
+    path = image_path 
+    complete = os.path.join(path,filename)
+    with open(complete,'wb') as f: 
+        shutil.copyfileobj(req.raw, f)
+
+
+
+    return None
 
 def create_image_db(db_path):
     """
@@ -211,7 +231,26 @@ def create_image_db(db_path):
     :param db_path: Path of .db file
     :returns: None
     """
-    return #TODO
+    path = db_path
+    
+    
+    f_exist= exists(path)
+    if f_exist == False:
+        db_path =sqlite3.connect(path) 
+        c = db_path.cursor() 
+        c.execute("""CREATE TABLE 'NASA Pictures'(
+            image_path text,
+            image_url text,
+            image_size integer,
+            image_sha256 text
+)
+                """)
+        
+        db_path.commit() 
+        
+        db_path.close()
+        
+    return None
 
 def add_image_to_db(db_path, image_path, image_size, image_sha256):
     """
