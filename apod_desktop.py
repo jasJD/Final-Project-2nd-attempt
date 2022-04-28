@@ -183,7 +183,7 @@ def download_apod_image(image_url):
     image =(image_url['url']) #the image data info saved here
     image_data = requests.get(image) #connection to url
     
-if image_data.status_code == 200:
+    if image_data.status_code == 200:
         print('Response:',image_data.status_code, '🎉🎉🎉', '\n')
         print("Success connection")
         return image
