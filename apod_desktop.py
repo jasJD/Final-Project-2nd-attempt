@@ -15,11 +15,17 @@ Parameters:
 History:
   Date        Author    Description
   2022-03-11  J.Dalby   Initial creation
+  2022-04-28  J.Daler   Adding my personal API key and fininshing the todos' at the beginning.
 """
 from sys import argv, exit
 from datetime import datetime, date
 from hashlib import sha256
 from os import path
+from os.path import exists
+import os.path
+import requests
+import hashlib
+import shutil
 
 def main():
 
@@ -37,10 +43,11 @@ def main():
     apod_info_dict = get_apod_info(apod_date)
     
     # Download today's APOD
-    image_url = "TODO"
+    image_url = download_apod_image(apod_info_dict)
     image_msg = download_apod_image(image_url)
-    image_sha256 = "TODO"
-    image_size = -1 # TODO
+    sha256_ = hashlib.sha256(image_url.encode())
+    image_sha256 = str((sha256_.digest())) 
+    image_size = os.path.getsize(image_path)
     image_path = get_image_path(image_url, image_dir_path)
 
     # Print APOD image information
@@ -116,7 +123,42 @@ def get_apod_info(date):
     :param date: APOD date formatted as YYYY-MM-DD
     :returns: Dictionary of APOD info
     """    
-    return {"todo" : "TODO"}
+    #return {"todo" : "TODO"}
+    key = 'TNm06SRKykzfokhyJrt5JucyZaaPFf5bzBgKYi2Y'
+    response = requests.get('https://api.nasa.gov/planetary/apod?api_key=' + key)
+    
+    params= (response + key +"&date=" + str(date))
+     
+    print(params)
+    print("Getting  APOD info......")
+    
+    response = requests.get(params)
+
+    if response.status_code == 200:
+        
+        
+        print('Response:',response.status_code, '🎉🎉🎉', '\n')
+        print("Success Date obtained")
+        info =response.json()
+        info_dict= dict(info)#transform it to a dictionary
+        
+        return info_dict
+        
+    else:
+        print('Uh Oh, Unsucessful',response.status_code)
+        return None
+
+def print_apod_info(image_url, image_path, image_size, image_sha256):
+    """
+    Prints information about the APOD
+
+    :param image_url: URL of image
+    :param image_path: Path of the image file saved locally
+    :param image_size: Size of image in bytes
+    :param image_sha256: SHA-256 of image
+    :returns: None
+    """    
+    return #TODO
 
 def print_apod_info(image_url, image_path, image_size, image_sha256):
     """
@@ -137,7 +179,20 @@ def download_apod_image(image_url):
     :param image_url: URL of image
     :returns: Response message that contains image data
     """
-    return "TODO"
+    #return "TODO"
+    image =(image_url['url']) #the image data info saved here
+    image_data = requests.get(image) #connection to url
+    
+if image_data.status_code == 200:
+        print('Response:',image_data.status_code, '🎉🎉🎉', '\n')
+        print("Success connection")
+        return image
+       
+            
+    else:
+        print('failed to download photo',image_data.status_code)
+        return None
+
 
 def save_image_file(image_msg, image_path):
     """
