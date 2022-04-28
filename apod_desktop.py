@@ -15,7 +15,9 @@ Parameters:
 History:
   Date        Author    Description
   2022-03-11  J.Dalby   Initial creation
-  2022-04-28  J.Daler   Adding my personal API key and fininshing the todos' at the beginning.
+  2022-04-27  J.Daler   Adding my personal API key and fininshing the todos' at the beginning.
+  2022-04-28  J.Daler   Worked on def download_apod_image.
+
 """
 from sys import argv, exit
 from datetime import datetime, date
@@ -113,7 +115,14 @@ def get_image_path(image_url, dir_path):
     :param dir_path: Path of directory in which image is saved locally
     :returns: Path at which image is saved locally
     """
-    return "TODO"
+    url =image_url #image url
+    filename= url.split("/")[-1] #get the picture's name
+    
+    resides =  dir_path # where the photo are saved
+    
+    full_path= os.path.join(resides,filename)# full path of photo
+    print(full_path)
+    return resides
 
 def get_apod_info(date):
     """
@@ -125,10 +134,9 @@ def get_apod_info(date):
     """    
     #return {"todo" : "TODO"}
     key = 'TNm06SRKykzfokhyJrt5JucyZaaPFf5bzBgKYi2Y'
-    response = requests.get('https://api.nasa.gov/planetary/apod?api_key=' + key)
+    nasa_api = requests.get('https://api.nasa.gov/planetary/apod?api_key=' + key)
     
-    params= (response + key +"&date=" + str(date))
-     
+    params= (nasa_api + key +"&date=" + str(date))    
     print(params)
     print("Getting  APOD info......")
     
@@ -151,26 +159,18 @@ def get_apod_info(date):
 def print_apod_info(image_url, image_path, image_size, image_sha256):
     """
     Prints information about the APOD
-
     :param image_url: URL of image
     :param image_path: Path of the image file saved locally
     :param image_size: Size of image in bytes
     :param image_sha256: SHA-256 of image
     :returns: None
     """    
-    return #TODO
-
-def print_apod_info(image_url, image_path, image_size, image_sha256):
-    """
-    Prints information about the APOD
-
-    :param image_url: URL of image
-    :param image_path: Path of the image file saved locally
-    :param image_size: Size of image in bytes
-    :param image_sha256: SHA-256 of image
-    :returns: None
-    """    
-    return #TODO
+    print("the Url is " + image_url,".")
+    print("Full path is " + image_path,".")
+    print("The Image size is ", image_size,"KB.")
+    print("The Sha-256 is ", image_sha256)
+    
+    return None
 
 def download_apod_image(image_url):
     """
@@ -187,8 +187,7 @@ def download_apod_image(image_url):
         print('Response:',image_data.status_code, '🎉🎉🎉', '\n')
         print("Success connection")
         return image
-       
-            
+                   
     else:
         print('failed to download photo',image_data.status_code)
         return None
