@@ -19,6 +19,7 @@ History:
   2022-04-28  J.Daler   Worked on def download_apod_image.
   2022-04-28  J.Daler   Joining the pieces of the code together by completing the rest of the To-dos.
   2022-04-29  J.Daler   adding image to the daatbases and setting up images already in the database
+  2022-04-29  J.Daler   Finally finishing setting desktop image using ctypes
 """
 from sys import argv, exit
 from datetime import datetime, date
@@ -233,8 +234,6 @@ def create_image_db(db_path):
     :returns: None
     """
     path = db_path
-    
-    
     f_exist= exists(path)
     if f_exist == False:
         db_path =sqlite3.connect(path) 
@@ -247,8 +246,7 @@ def create_image_db(db_path):
 )
                 """)
         
-        db_path.commit() 
-        
+        db_path.commit()  
         db_path.close()
         
     return None
