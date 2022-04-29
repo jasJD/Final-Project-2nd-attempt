@@ -265,6 +265,8 @@ def add_image_to_db(db_path, image_path, image_size, image_sha256):
     connect =sqlite3.connect(db_path) 
     c =connect.cursor()
     c.execute("INSERT INTO 'NASA Pictures'( image_path, image_url, image_size, image_sha256) VALUES (?,?,?,?)",(db_path, image_path, image_size, image_sha256))
+    connect.commit()
+    connect.close()
     return None
 
 def image_already_in_db(db_path, image_sha256):
