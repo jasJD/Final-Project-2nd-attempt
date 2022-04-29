@@ -262,7 +262,10 @@ def add_image_to_db(db_path, image_path, image_size, image_sha256):
     :param image_sha256: SHA-256 of image
     :returns: None
     """
-    return #TODO
+    connect =sqlite3.connect(db_path) 
+    c =connect.cursor()
+    c.execute("INSERT INTO 'NASA Pictures'( image_path, image_url, image_size, image_sha256) VALUES (?,?,?,?)",(db_path, image_path, image_size, image_sha256))
+    return None
 
 def image_already_in_db(db_path, image_sha256):
     """
@@ -273,8 +276,15 @@ def image_already_in_db(db_path, image_sha256):
     :param image_sha256: SHA-256 of image
     :returns: True if image is already in DB; False otherwise
     """ 
-    return True #TODO
-
+    connect=sqlite3.connect(db_path)
+    c =connect.cursor()
+    c.execute("SELECT image_sha256 FROM 'NASA Pictures'")
+    all_sh =c.fetchall()
+    c.close()
+    if (image_sha256,)in all_sh:
+        return True
+    else:
+        return False
 def set_desktop_background_image(image_path):
     """
     Changes the desktop wallpaper to a specific image.
