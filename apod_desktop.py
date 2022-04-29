@@ -18,7 +18,7 @@ History:
   2022-04-27  J.Daler   Adding my personal API key and fininshing the todos' at the beginning.
   2022-04-28  J.Daler   Worked on def download_apod_image.
   2022-04-28  J.Daler   Joining the pieces of the code together by completing the rest of the To-dos.
-
+  2022-04-28  J.Daler   adding image to the daatbases and setting up images already in the database
 """
 from sys import argv, exit
 from datetime import datetime, date
