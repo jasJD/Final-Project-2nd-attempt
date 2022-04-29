@@ -18,7 +18,7 @@ History:
   2022-04-27  J.Daler   Adding my personal API key and fininshing the todos' at the beginning.
   2022-04-28  J.Daler   Worked on def download_apod_image.
   2022-04-28  J.Daler   Joining the pieces of the code together by completing the rest of the To-dos.
-  2022-04-28  J.Daler   adding image to the daatbases and setting up images already in the database
+  2022-04-29  J.Daler   adding image to the daatbases and setting up images already in the database
 """
 from sys import argv, exit
 from datetime import datetime, date
@@ -31,6 +31,7 @@ import hashlib
 import shutil
 from pprint import pprint
 import sqlite3
+import ctypes
 
 def main():
 
@@ -287,13 +288,14 @@ def image_already_in_db(db_path, image_sha256):
         return True
     else:
         return False
-def set_desktop_background_image(image_path):
+def set_desktop_background_image(background):
     """
     Changes the desktop wallpaper to a specific image.
 
     :param image_path: Path of image file
     :returns: None
     """
-    return #TODO
-
+    ctypes.windll.user32.SystemParametersInfoW(background)
+    
+    return None
 main()
