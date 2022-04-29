@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Python: Current File",
-            "args": ["c:\\temp\\APOD", ],
+            "args": ["c:\\temp\\APOD","2022-03-12" ],
             "type": "python",
             "request": "launch",
             "program": "${file}",

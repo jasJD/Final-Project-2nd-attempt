@@ -50,11 +50,11 @@ def main():
     
     # Download today's APOD
     image_url = download_apod_image(apod_info_dict)
-    image_msg = download_apod_image(image_url)
+    image_msg = image_url
     sha256_ = hashlib.sha256(image_url.encode())
     image_sha256 = str((sha256_.digest())) 
-    image_size = os.path.getsize(image_path)
     image_path = get_image_path(image_url, image_dir_path)
+    image_size = os.path.getsize(image_path)
 
     # Print APOD image information
     print_apod_info(image_url, image_path, image_size, image_sha256)
@@ -137,8 +137,8 @@ def get_apod_info(date):
     :returns: Dictionary of APOD info
     """    
     #return {"todo" : "TODO"}
-    key = 'TNm06SRKykzfokhyJrt5JucyZaaPFf5bzBgKYi2Y'
-    nasa_api = requests.get('https://api.nasa.gov/planetary/apod?api_key=' + key)
+    key = 'JnMIJyBqIJHIGdNWQgViR0q8GWDDss53wAJrXHXm'
+    nasa_api ='https://api.nasa.gov/planetary/apod?api_key='
     
     params= (nasa_api + key +"&date=" + str(date))    
     print(params)
@@ -192,7 +192,7 @@ def download_apod_image(image_url):
         return image
                    
     else:
-        print('failed to download photo',image_data.status_code)
+        print('failed to download the photo',image_data.status_code)
         return None
 
 
