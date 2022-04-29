@@ -18,7 +18,7 @@ History:
   2022-04-27  J.Daler   Adding my personal API key and fininshing the todos' at the beginning.
   2022-04-28  J.Daler   Worked on def download_apod_image.
   2022-04-28  J.Daler   Joining the pieces of the code together by completing the rest of the To-dos.
-  2022-04-29  J.Daler   adding image to the daatbases and setting up images already in the database
+  2022-04-29  J.Daler   adding image to the datbases and setting up images already in the database
   2022-04-29  J.Daler   Finally finishing setting desktop image using ctypes
 """
 from sys import argv, exit
@@ -222,18 +222,16 @@ def save_image_file(image_msg, image_path):
     with open(complete,'wb') as f: 
         shutil.copyfileobj(req.raw, f)
 
-
-
     return None
 
 def create_image_db(db_path):
     """
     Creates an image database if it doesn't already exist.
-
     :param db_path: Path of .db file
     :returns: None
     """
     path = db_path
+    
     f_exist= exists(path)
     if f_exist == False:
         db_path =sqlite3.connect(path) 
@@ -243,18 +241,16 @@ def create_image_db(db_path):
             image_url text,
             image_size integer,
             image_sha256 text
-)
+        )     
                 """)
-        
-        db_path.commit()  
+        db_path.commit() 
         db_path.close()
         
     return None
-
+    
 def add_image_to_db(db_path, image_path, image_size, image_sha256):
     """
     Adds a specified APOD image to the DB.
-
     :param db_path: Path of .db file
     :param image_path: Path of the image file saved locally
     :param image_size: Size of image in bytes
@@ -272,28 +268,27 @@ def image_already_in_db(db_path, image_sha256):
     """
     Determines whether the image in a response message is already present
     in the DB by comparing its SHA-256 to those in the DB.
-
     :param db_path: Path of .db file
     :param image_sha256: SHA-256 of image
     :returns: True if image is already in DB; False otherwise
     """ 
+    
     connect=sqlite3.connect(db_path)
     c =connect.cursor()
     c.execute("SELECT image_sha256 FROM 'NASA Pictures'")
     all_sh =c.fetchall()
     c.close()
     if (image_sha256,)in all_sh:
-        return True
+        return True  
     else:
         return False
+        
 def set_desktop_background_image(background):
     """
     Changes the desktop wallpaper to a specific image.
-
     :param image_path: Path of image file
     :returns: None
     """
     ctypes.windll.user32.SystemParametersInfoW(background)
-    
     return None
 main()

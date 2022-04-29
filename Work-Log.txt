@@ -1,0 +1,26 @@
+2022-04-27
+(I)  Copying code from the first attempt with slight changes to original D2l script.
+
+2022-04-27
+(I)   Adding my personal API key and fininshing the todos' at the beginning.
+       https://api.nasa.gov/
+
+2022-04-28
+(I)   Worked on def download_apod_image.
+       https://stackoverflow.com/questions/2665866/what-does-wb-mean-in-this-code-using-python
+(II)  Figured out most of the issues or errors using sources from stack overflow.
+(III) Altered the script from def get_apod_info(date).
+
+2022-04-29
+(I)   Adding image to the datbases and setting up images already in the database.
+(II)  Faced issues in concatenation in def get_apod_info(date) and fixed it.
+(III) Faced issues with NASA API link and solved it.
+
+2022-04-29
+(I)   Figured out how to set background image using ctypes.
+       https://stackoverflow.com/questions/1977694/how-can-i-change-my-desktop-background-with-python   
+(II)  Joined the pieces of code together to make it executable and fuctioning.
+(III) Added headers in the description.
+
+2022-04-29
+(I) Created work log by taking references from headers added time to time in the apod script.
